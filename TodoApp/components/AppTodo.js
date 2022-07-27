@@ -10,12 +10,13 @@ import {
   View,
 } from 'react-native';
 
-export function AppTodo() {
+export function AppTodo({onInsert}) {
   const [text, setText] = useState('');
 
-  const clearInput = () => {
+  const onPress = () => {
+    onInsert(text);
     setText('');
-    Keyboard.dismiss(); // 키보드 닫기
+    Keyboard.dismiss();
   };
 
   const button = (
@@ -31,16 +32,16 @@ export function AppTodo() {
         style={styles.input}
         value={text}
         onChangeText={setText}
-        onSubmitEditing={clearInput}
+        onSubmitEditing={onPress}
         returnKeyType="done"
       />
       {Platform.OS === 'ios' ? (
-        <TouchableOpacity activeOpacity={0.5} onPress={clearInput}>
+        <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
           {button}
         </TouchableOpacity>
       ) : (
         <View style={styles.circleWrapper}>
-          <TouchableNativeFeedback onPress={clearInput}>
+          <TouchableNativeFeedback onPress={onPress}>
             {button}
           </TouchableNativeFeedback>
         </View>
